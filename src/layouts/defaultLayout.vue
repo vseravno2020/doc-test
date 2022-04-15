@@ -1,20 +1,38 @@
 <template>
-  <div class="primary">
+  <div
+    class="primary"
+    :class="{'stop-scrolling': isModalVisible }"
+  >
     <div class="primary__wrap">
-      <div class="primary__header">
-        <h1>header</h1>
-      </div>
-      <div class="primary__content">
-        <h2>content</h2>
-      </div>
+      <header class="primary__header">
+        <my-header />
+      </header>
+      <main class="primary__content">
+        <router-view />
+      </main>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import Vue from "vue";
+import Vue from 'vue';
+import header from "@/components/header.vue";
+import {eventBus} from "@/main";
 export default Vue.extend({
   name: 'default-layout',
+  components: {
+    'my-header':header,
+  },
+  data (){
+    return{
+      isModalVisible: false as boolean
+    }
+  },
+  created () {
+    eventBus.$on('isModalVisible', (data) => {
+      this.isModalVisible = data
+    })
+  },
 })
 </script>
 
@@ -22,5 +40,14 @@ export default Vue.extend({
   .primary{
     overflow: hidden;
     min-height: 100vh;
+    &__wrap{
+      width: 100%;
+      max-width: 744px;
+      margin: 0 auto;
+    }
+  }
+  .stop-scrolling {
+    overflow: hidden;
+    height: 100vh;
   }
 </style>

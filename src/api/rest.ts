@@ -1,15 +1,12 @@
-import {IResponse} from "@/types/rest";
 import axios from "axios";
-import {URL_API} from "../../../utils/constans";
-// import { IUserStats } from '~/types/store/main'
+import {URL_API} from "@/utils/constans";
 
-export const getUser = async (): Promise<any> => {
-    const response = await axios.get(URL_API+'users')
-    console.log(response)
-    // if (response.ok) {
-    //     if (response.result !== null) {
-    //         return response.result
-    //     }
-    // }
-    return response
+export const getData = async (method:string, payload:any): Promise<any> => {
+    const response = await axios.get(URL_API + method,{params:payload})
+    if (response.status === 200) {
+        return response.data
+    } else {
+        console.log('empty')
+        return false
+    }
 }
